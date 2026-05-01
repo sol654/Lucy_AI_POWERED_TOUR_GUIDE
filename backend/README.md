@@ -1,246 +1,102 @@
-# ሉሲ AI Guide Backend
+# ሉሲ (Lucy) - Backend Architecture
 
-FastAPI backend for the ሉሲ AI Heritage Guide mobile application. Provides AI-powered cultural tour guide services with multilingual support.
+[![FastAPI](https://img.shields.io/badge/FastAPI-009688.svg?style=for-the-badge&logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com/)
+[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1.svg?style=for-the-badge&logo=postgresql&logoColor=white)](https://www.postgresql.org/)
+[![Python](https://img.shields.io/badge/Python-3.9+-3776AB.svg?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
 
-## Features
+This is the core engine of the ሉሲ (Lucy) AI platform. It provides a robust, asynchronous REST API for AI-powered cultural tourism services.
 
-- **AI Chat**: Groq-powered conversational AI for Ethiopian heritage sites
-- **Voice Processing**: Speech-to-text and text-to-speech using Groq Whisper and gTTS
-- **Semantic Search**: FAISS vector search with Sentence Transformers for context retrieval
-- **Multilingual**: Support for English, Amharic, Tigrinya, and Oromo
-- **User Management**: JWT authentication with role-based access
-- **Heritage Sites**: CRUD operations for cultural site management
-- **Journeys & Favorites**: Personalized user experiences
-- **Admin Dashboard**: Analytics and content management
+---
 
-## Tech Stack
+## 🛠 Tech Stack
 
-- **Framework**: FastAPI
-- **Database**: PostgreSQL with SQLAlchemy ORM
-- **AI**: Groq (Llama 3.3 70B, Whisper)
-- **Search**: FAISS + Sentence Transformers
-- **Voice**: gTTS for text-to-speech
-- **Auth**: JWT with bcrypt hashing
-- **Storage**: Firebase Storage
-- **Maps**: Geoapify geocoding
-- **Deployment**: Docker + Docker Compose
+- **Framework**: FastAPI (High-performance Python web framework)
+- **Database**: PostgreSQL with SQLAlchemy (ORM) & Alembic (Migrations)
+- **AI Engine**: 
+  - **Groq Llama 3.3 70B**: For intelligent response generation.
+  - **Groq Whisper**: For high-accuracy speech-to-text.
+  - **Sentence Transformers**: For semantic vector embeddings.
+- **Search**: **FAISS** (Facebook AI Similarity Search) for RAG context retrieval.
+- **Voice**: **gTTS** (Google Text-to-Speech) with localized language support.
+- **Storage**: **Firebase Storage** for heritage site images and user profiles.
 
-## Quick Start
+---
 
-### Prerequisites
+## 📡 API Overview
 
-- Python 3.9+
-- PostgreSQL (or use Docker)
-- API Keys: Groq, Geoapify, Firebase
+The backend exposes several key modules:
 
-### Local Development
+### 🔐 Authentication (`/auth`)
+- Secure JWT-based registration and login.
+- Profile management with support for language preferences.
 
-1. **Clone and setup**:
-   ```bash
-   cd backend
-   python -m venv venv
-   source venv/bin/activate  # On Windows: venv\Scripts\activate
-   pip install -r requirements.txt
-   ```
+### 🏛 Heritage Sites (`/sites`)
+- CRUD operations for 11+ major Ethiopian heritage sites.
+- Geolocation metadata (Lat/Lon) for map integration.
 
-2. **Environment variables**:
-   ```bash
-   cp .env.example .env
-   # Edit .env with your API keys
-   ```
+### 🤖 AI Services (`/ai`)
+- **Text Query**: Process natural language queries about cultural sites.
+- **Voice Query**: Seamlessly convert audio to text, process via RAG, and return text + audio responses.
 
-3. **Database setup**:
-   ```bash
-   # Create PostgreSQL database or use Docker
-   # Update DATABASE_URL in .env
+### 🗺 Geo Services (`/geo`)
+- Forward and reverse geocoding via Geoapify.
 
-   # Run migrations
-   python -c "from app.database import engine, Base; Base.metadata.create_all(bind=engine)"
+---
 
-   # Seed data
-   python -m app.seed
-   ```
+## ⚙️ Setup & Installation
 
-4. **Run the server**:
-   ```bash
-   uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
-   ```
-
-API docs available at: `http://localhost:8000/docs`
-
-### Docker Development
-
+### 1. Environment Setup
+Create a `.env` file in this directory based on `.env.example`:
 ```bash
-# From project root
-docker-compose up --build
+cp .env.example .env
 ```
 
-## API Endpoints
+### 2. Manual Installation
+```bash
+# Create virtual environment
+python -m venv venv
+source venv/bin/activate
 
-### Core Routes
+# Install dependencies
+pip install -r requirements.txt
 
-- `GET /` - Health check
-- `GET /docs` - Interactive API documentation
-- `GET /redoc` - Alternative API documentation
+# Seed the database
+python -m app.seed
 
-### Authentication (`/auth`)
-
-- `POST /auth/register` - Register new user
-- `POST /auth/login` - User login
-- `GET /auth/profile` - Get current user profile
-- `PUT /auth/profile` - Update user profile
-
-### Heritage Sites (`/sites`)
-
-- `GET /sites` - List all sites
-- `GET /sites/{id}` - Get site details
-- `POST /sites` - Create new site (Admin)
-- `PUT /sites/{id}` - Update site (Admin)
-- `DELETE /sites/{id}` - Delete site (Admin)
-
-### AI Queries (`/ai`)
-
-- `POST /ai/query` - Text-based AI query
-- `POST /ai/voice` - Voice-based AI query
-
-### User Features
-
-- `GET /favorites` - List user favorites
-- `POST /favorites` - Add to favorites
-- `DELETE /favorites/{id}` - Remove favorite
-
-- `GET /journeys` - List user journeys
-- `POST /journeys` - Create journey
-- `GET /journeys/{id}` - Get journey details
-- `POST /journeys/{id}/sites` - Add site to journey
-- `DELETE /journeys/{id}/sites/{site_id}` - Remove site from journey
-
-### Admin (`/admin`)
-
-- `GET /admin/stats` - Dashboard statistics
-
-### Maps (`/geo`)
-
-- `GET /geo/search` - Geocode place names
-- `GET /geo/reverse` - Reverse geocode coordinates
-
-### Feedback
-
-- `GET /feedback` - List feedback (Admin)
-- `POST /feedback` - Submit feedback
-
-## Data Models
-
-### User
-- id, name, email, language_preference, role, created_at
-
-### HeritageSite
-- id, name, description, location, latitude, longitude, category, images, created_at
-
-### Journey
-- id, user_id, name, description, sites (many-to-many)
-
-### Favorite
-- user_id, site_id
-
-### Feedback
-- user_id, rating, comment, created_at
-
-## AI Pipeline
-
-1. **Query Processing**: Language detection + user preference override
-2. **Voice Input**: Groq Whisper transcribes audio to text
-3. **Semantic Search**: Sentence Transformers encode query → FAISS similarity search
-4. **Context Retrieval**: Top-k relevant documents from heritage site dataset
-5. **Response Generation**: Groq Llama generates response in user's language
-6. **Text-to-Speech**: gTTS converts response to audio (base64)
-
-## Environment Variables
-
-```env
-# Database
-DATABASE_URL=postgresql://user:pass@localhost:5432/lucy_db
-
-# AI Services
-GROQ_API_KEY=your_groq_api_key
-GROQ_MODEL=llama-3.3-70b-versatile
-
-# Maps
-GEOAPIFY_API_KEY=your_geoapify_key
-
-# Firebase Storage
-FIREBASE_API_KEY=your_firebase_key
-FIREBASE_PROJECT_ID=your_project_id
-FIREBASE_STORAGE_BUCKET=your_bucket
-FIREBASE_APP_ID=your_app_id
-FIREBASE_PROJECT_NUMBER=your_number
-FIREBASE_CREDENTIALS_PATH=./app/firebase_key.json
-
-# Authentication
-JWT_SECRET_KEY=your_secret_key
-ACCESS_TOKEN_EXPIRE_MINUTES=1440
-
-# Optional: Model caching
-TRANSFORMERS_OFFLINE=1
-SENTENCE_TRANSFORMERS_HOME=/app/models
+# Start the development server
+uvicorn app.main:app --reload
 ```
 
-## Testing
+---
 
+## 🧠 AI Pipeline Details
+
+Lucy implements a sophisticated **Retrieval-Augmented Generation (RAG)** pipeline:
+
+1. **Embedding**: The heritage site dataset is embedded using `sentence-transformers`.
+2. **Indexing**: Embeddings are stored in a FAISS vector index.
+3. **Retrieval**: When a query arrives, it is vectorized and matched against the index to find the most relevant context.
+4. **Augmentation**: The query + context are sent to **Llama 3.3 70B** on Groq for ultra-fast generation.
+5. **Localization**: The response is generated directly in the user's preferred language (Amharic, Tigrinya, Oromo, or English).
+
+---
+
+## 🐳 Docker Deployment
+
+The backend is fully dockerized. To run it independently:
 ```bash
-# Install test dependencies
-pip install pytest httpx
+docker build -t lucy-backend .
+docker run -p 8000:8000 --env-file .env lucy-backend
+```
 
-# Run tests
+---
+
+## 🧪 Testing
+We use `pytest` for unit and integration testing:
+```bash
 pytest tests/
-
-# Run specific test file
-pytest tests/test_main.py
 ```
 
-## Deployment
+---
 
-### Docker Production
-
-```bash
-# Build and run
-docker-compose -f docker-compose.yml up --build -d
-
-# Scale services
-docker-compose up -d --scale backend=3
-```
-
-### Cloud Deployment
-
-The app can be deployed to:
-- **Heroku**: Set environment variables, use heroku.yml
-- **Railway**: Connect GitHub repo, set env vars
-- **AWS/GCP**: Use Docker containers with load balancer
-
-### Environment Setup
-
-1. Set all required environment variables
-2. Ensure database is accessible
-3. Run database migrations
-4. Seed initial data
-5. Start the application
-
-## Development Notes
-
-- **CORS**: Configured for mobile app origins
-- **File Uploads**: Handled via Firebase Storage
-- **Vector Search**: FAISS index rebuilt on data changes
-- **Language Support**: Responses always in user's preferred language
-- **Error Handling**: Comprehensive error responses with localization
-
-## Contributing
-
-1. Follow FastAPI best practices
-2. Add type hints for all functions
-3. Write tests for new features
-4. Update API documentation
-5. Ensure multilingual support
-
-## License
-
-MIT License - see main project LICENSE file.
+*For full project documentation, please refer to the [Root README](../README.md).*
