@@ -1,0 +1,31 @@
+--extra-index-url https://download.pytorch.org/whl/cpu
+
+fastapi==0.111.0
+groq==0.9.0
+uvicorn[standard]==0.29.0
+sqlalchemy==2.0.30
+psycopg2-binary==2.9.9
+alembic==1.13.1
+pydantic[email]==2.7.1
+python-jose[cryptography]==3.3.0
+bcrypt==4.0.1
+python-multipart==0.0.9
+
+# Google Gemini (AI Studio)
+google-generativeai==0.7.2
+
+# Semantic search — CPU only
+numpy>=1.26.4,<2.0
+faiss-cpu>=1.9.0
+sentence-transformers==2.7.0
+torch>=2.5.1
+
+# Text-to-speech
+gtts==2.5.1
+SpeechRecognition==3.10.4
+
+# Firebase
+firebase-admin==6.5.0
+
+python-dotenv==1.0.1
+httpx==0.27.0
