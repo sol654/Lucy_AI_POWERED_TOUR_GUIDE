@@ -132,7 +132,6 @@ MIT Open Source License — free for everyone to use, modify, and distribute.
 
 ## 🙏 Credits
 
-- Ethiopian Heritage Authority
 - Groq for LLM inference
 - OpenStreetMap contributors
 
