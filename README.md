@@ -14,16 +14,9 @@
 
 ## 🎬 Demo Video
 
-Click the video below to see Lucy in action:
+[![Watch Demo Video](https://img.shields.io/badge/▶️_Click_to_Watch_Demo_Video-red?style=for-the-badge&logo=video&logoColor=white)](https://github.com/sol654/Lucy_AI_POWERED_TOUR_GUIDE/blob/main/LucyDemo_24mb_v2.mp4?raw=true)
 
-[![Lucy Demo Video](https://img.shields.io/badge/▶️_Watch_Demo_Click_Here-FF0000?style=for-the-badge&logo=youtube&logoColor=white)](https://github.com/sol654/Lucy_AI_POWERED_TOUR_GUIDE/blob/main/LucyDemo_24mb_v2.mp4?raw=true)
-
-Or watch directly:
-
-<video controls width="100%">
-  <source src="https://github.com/sol654/Lucy_AI_POWERED_TOUR_GUIDE/blob/main/LucyDemo_24mb_v2.mp4?raw=true" type="video/mp4">
-  Your browser does not support the video tag.
-</video>
+**Click the button above to view the demo video** — It will open/download in your browser.
 
 ---
 
