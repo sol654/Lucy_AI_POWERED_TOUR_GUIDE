@@ -14,9 +14,9 @@
 
 ## 🎬 Demo Video
 
-[![Watch Demo Video](https://img.shields.io/badge/▶️_Click_to_Watch_Demo_Video-red?style=for-the-badge&logo=video&logoColor=white)](https://github.com/sol654/Lucy_AI_POWERED_TOUR_GUIDE/blob/main/LucyDemo_24mb_v2.mp4?raw=true)
+[📥 Download Demo Video (24MB)](https://raw.githubusercontent.com/sol654/Lucy_AI_POWERED_TOUR_GUIDE/main/LucyDemo_24mb_v2.mp4)
 
-**Click the button above to view the demo video** — It will open/download in your browser.
+> 💡 **Note**: GitHub doesn't support video playback in README files. Click the link above to download the video and watch it on your device.
 
 ---
 
