@@ -1,4 +1,3 @@
-```markdown
 # ሉሲ (Lucy) - AI-Powered Cultural Tour Guide
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
@@ -194,4 +193,4 @@ Distributed under the MIT License. See `LICENSE` for more information.
   <b>Built with ❤️ for Ethiopian Heritage Preservation</b><br>
   <i>Promoting Tourism through Artificial Intelligence</i>
 </p>
-```
+
